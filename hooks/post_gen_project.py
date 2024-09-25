@@ -97,10 +97,6 @@ CONFIG_DIR = search_dir(
     stop_when="manage.py"
 )
 
-BASE_DIR = search_dir(
-    'manage.py',
-)
-
 
 def set_flag(file_path, flag, value=None):
     if value is None:
