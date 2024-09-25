@@ -1,7 +1,7 @@
 {
   "project_name": "Mon nouveau projet",
   "apps_folder_name": "",
-  "_settings_folder_name": "settings",
+  "_settings_folder_name": "_placepython_settings",
   "author_name": "Thierry Chappuis",
   "domain_name": "pacepython.com",
   "email": "{{ cookiecutter.author_name.lower() | trim() |replace(' ', '-') }}@{{ cookiecutter.domain_name.lower() | trim() }}",
