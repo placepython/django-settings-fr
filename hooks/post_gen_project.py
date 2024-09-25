@@ -225,7 +225,7 @@ def main():
     try:
         shutil.move(str(BASE_DIR / "settings"), str(CONFIG_DIR / "settings"))
     except PermissionError as e:
-        shutil.rmtree(str(BASE_DIR / "settings))  # Supprime le dossier source après la copie
+        shutil.rmtree(str(BASE_DIR / "settings"))  # Supprime le dossier source après la copie
 
 if __name__ == "__main__":
     main()
