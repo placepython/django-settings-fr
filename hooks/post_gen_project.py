@@ -223,7 +223,7 @@ def main():
     print(SUCCESS + "Vos fichiers de configuration sont prêts" + TERMINATOR)
 
     try:
-        shutil.move(str(BASE_DIR / "settings), str(CONFIG_DIR / "settings"))
+        shutil.move(str(BASE_DIR / "settings"), str(CONFIG_DIR / "settings"))
     except PermissionError as e:
         shutil.rmtree(str(BASE_DIR / "settings))  # Supprime le dossier source après la copie
 
