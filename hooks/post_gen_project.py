@@ -97,6 +97,12 @@ CONFIG_DIR = search_dir(
     stop_when="manage.py"
 )
 
+BASE_DIR = search_dir(
+    'manage.py',
+    exclude_dirs=[".venv", "venv"],
+    stop_when="manage.py"
+)
+
 
 def set_flag(file_path, flag, value=None):
     if value is None:
@@ -217,9 +223,9 @@ def main():
     print(SUCCESS + "Vos fichiers de configuration sont prêts" + TERMINATOR)
 
     try:
-        shutil.move("../settings", str(CONFIG_DIR / "settings"))
+        shutil.move(str(BASE_DIR / "settings), str(CONFIG_DIR / "settings"))
     except PermissionError as e:
-        print(SUCCESS + "Déplacer votre nouveau répertoire settings dans {CONFIG_DIR}" + TERMINATOR)
+        shutil.rmtree(str(BASE_DIR / "settings))  # Supprime le dossier source après la copie
 
 if __name__ == "__main__":
     main()
