@@ -217,6 +217,7 @@ def main():
     print(SUCCESS + "Vos fichiers de configuration sont prêts" + TERMINATOR)
 
     shutil.copytree("../placepython_settings", str(CONFIG_DIR / "settings"))
+    print(SUCCESS + "Vous pouvez supprimer le répertoire _placepython_settings" + TERMINATOR)
 
 if __name__ == "__main__":
     main()
