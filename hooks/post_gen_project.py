@@ -102,7 +102,7 @@ def set_flag(file_path, flag, value=None):
     if value is None:
         value = secrets.token_hex(64)
 
-    with open(file_path, "r+") as f:
+    with open(file_path, "r+", encoding="utf-8") as f:
         file_contents = f.read().replace(flag, value)
         f.seek(0)
         f.write(file_contents)
@@ -140,7 +140,7 @@ def main():
     if settings_dir.exists():
         settings_dir.rename(settings_dir.with_name("settings.backup"))
 
-    with open(Path("../manage.py"), "r+") as f:
+    with open(Path("../manage.py"), "r+", encoding="utf-8") as f:
         file_contents = f.read()
         file_contents = file_contents.replace(
             "import os\nimport sys",
@@ -156,7 +156,7 @@ def main():
 
     wsgi_file = CONFIG_DIR / "wsgi.py"
     if wsgi_file.exists():
-        with open(wsgi_file, "r+") as f:
+        with open(wsgi_file, "r+", encoding="utf-8") as f:
             file_contents = f.read()
             file_contents = file_contents.replace(
                 "from django.core.wsgi import get_wsgi_application",
@@ -172,7 +172,7 @@ def main():
 
     asgi_file = CONFIG_DIR / "asgi.py"
     if asgi_file.exists():
-        with open(asgi_file, "r+") as f:
+        with open(asgi_file, "r+", encoding="utf-8") as f:
             file_contents = f.read()
             file_contents = file_contents.replace(
                 "from django.core.asgi import get_asgi_application",
