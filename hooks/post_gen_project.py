@@ -216,7 +216,7 @@ def main():
     print()
     print(SUCCESS + "Vos fichiers de configuration sont prêts" + TERMINATOR)
 
-    shutil.copytree("../settings", str(CONFIG_DIR / "settings"))
+    shutil.copytree("../placepython_settings", str(CONFIG_DIR / "settings"))
 
 if __name__ == "__main__":
     main()
