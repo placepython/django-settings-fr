@@ -99,8 +99,6 @@ CONFIG_DIR = search_dir(
 
 BASE_DIR = search_dir(
     'manage.py',
-    exclude_dirs=[".venv", "venv"],
-    stop_when="manage.py"
 )
 
 
