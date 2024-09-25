@@ -216,7 +216,13 @@ def main():
     print()
     print(SUCCESS + "Vos fichiers de configuration sont prêts" + TERMINATOR)
 
-    shutil.move("../settings", str(CONFIG_DIR / "settings"))
+    try:
+        shutil.move("../settings", str(CONFIG_DIR / "settings"))
+    except PermissionError as e:
+        print(f"PermissionError encountered.")
+        # Si le déplacement échoue, copiez le répertoire et supprimez le source manuellement
+        shutil.copytree("../settings", str(CONFIG_DIR / "settings"))
+        shutil.rmtree("../settings")  # Supprime le dossier source après la copie
 
 if __name__ == "__main__":
     main()
