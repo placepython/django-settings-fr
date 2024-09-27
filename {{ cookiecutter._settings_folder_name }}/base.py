@@ -11,20 +11,7 @@ https://docs.djangoproject.com/fr/5.1/ref/settings/
 from pathlib import Path
 
 from . import BASE_DIR
-from . import search_dir
 from . import env
-
-# Répertoire de configuration de l'installation Django
-CONFIG_DIR = search_dir(__file__, "wsgi.py", exclude_dirs=[".venv", "venv"], stop_when="manage.py")
-
-# Répertoire des applications: {{ cookiecutter.apps_folder_name }}/
-{%- if cookiecutter.apps_folder_name %}
-APPS_DIR = BASE_DIR / "{{ cookiecutter.apps_folder_name }}"{% else %}
-APPS_DIR = BASE_DIR{% endif %}
-
-# ATTENTION A LA SECURITE: keep the secret key used in production secret!
-# https://docs.djangoproject.com/fr/5.1/ref/settings/#std-setting-SECRET_KEY
-SECRET_KEY = "!!!SET DJANGO_SECRET_KEY!!!"
 
 # DEBUG:
 # De base, on désactive le mode DEBUG pour éviter les oublis en production
@@ -41,10 +28,7 @@ ALLOWED_HOSTS = []
 
 # Applications installées sur ce projet Django
 INSTALLED_APPS = [
-    # Ajouter vos propres applications ...
-
     {%- if cookiecutter.use_wagtail %}
-
     # Applications venant de Wagtail
     "wagtail.embeds",
     "wagtail.sites",
@@ -74,8 +58,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     # Application externes
     "django_extensions",
-    {%- if cookiecutter.use_vite_for_frontend %}
-    "django_vite",{% endif %}
+    # Ajouter vos propres applications ...
 ]
 
 # GESTION DU MUTLI-SITES
@@ -110,7 +93,7 @@ MIDDLEWARE = [
 # Une chaîne représentant le chemin d’importation Python complet vers votre
 # URLconf racine, par exemple "mesapplisdjango.urls".
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = "!!!SET DJANGO_CONFIG_DIR!!!.urls"
+ROOT_URLCONF = "{{ cookiecutter.__config_dir }}.urls"
 
 # TEMPLATES:
 # Une liste contenant les réglages de tous les moteurs de gabarit à utiliser
@@ -153,7 +136,7 @@ TEMPLATES = [
 # Le chemin Python complet de l’objet application WSGI que les serveurs intégrés dans Django vont
 # utiliser (par ex. runserver).
 # https://docs.djangoproject.com/fr/5.1/ref/settings/#wsgi-application
-WSGI_APPLICATION = "!!!SET DJANGO_CONFIG_DIR!!!.wsgi.application"
+WSGI_APPLICATION = "{{ cookiecutter.__config_dir }}.wsgi.application"
 
 
 # BASE DE DONNEES:
@@ -177,7 +160,7 @@ DATABASES = {
 
 # Type de champ clé primaire à utiliser par défaut pour les modèles n’ayant
 # pas de champ avec primary_key=True.
-# https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
+# https://docs.djangoproject.com/fr/5.1/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # VALIDATION DES MOTS DE PASSE
@@ -300,7 +283,7 @@ LOGIN_URL = "{{ cookiecutter.login_url }}"
 # Le chemin absolu vers le répertoire dans lequel collectstatic rassemble les fichiers statiques en
 # vue du déploiement.
 # https://docs.djangoproject.com/fr/5.1/ref/settings/#static-root
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = Path(env("DJANGO_STATIC_ROOT", default=str(BASE_DIR / "staticfiles")))
 
 # URL utilisée pour se référer aux fichiers statiques se trouvant dans
 # STATIC_ROOT.
@@ -337,7 +320,7 @@ STATICFILES_FINDERS = [
 # Chemin absolu de répertoire pointant vers le répertoire qui contiendra les
 # fichiers uploadés par les utilisateurs.
 # https://docs.djangoproject.com/fr/5.1/ref/settings/#media-root
-MEDIA_ROOT = APPS_DIR / "media"
+MEDIA_ROOT = Path(env("DJANGO_MEDIA_ROOT", default=str(BASE_DIR / "media")))
 
 # URL qui gère les fichiers médias servis à partir de MEDIA_ROOT, utilisée pour
 # la gestion des fichiers stockés. Elle doit se terminer par une barre oblique
@@ -356,7 +339,7 @@ SESSION_COOKIE_HTTPONLY = True
 # paramètre est défini à True, le JavaScript côté client ne sera pas en mesure
 # d’accéder au cookie CSRF.
 # https://docs.djangoproject.com/fr/5.1/ref/settings/#csrf-cookie-httponly
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
 
 # Valeur par défaut de l’en-tête X-Frame-Options utilisé par
 # XFrameOptionsMiddleware pour se protéger contre le
@@ -428,14 +411,35 @@ LOGGING = {
 
 {%- if cookiecutter.use_wagtail %}
 
-# CONFIGURATION DE WAGTAIL
+# Wagtail settings
 
-# Use Elasticsearch as the search backend for extra performance and better search results
+WAGTAIL_SITE_NAME = "{{ cookiecutter.project_name }}"
+
+# Search
+# https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {
     "default": {
         "BACKEND": "wagtail.search.backends.database",
-        "INDEX": "db.sqlite3",
-    },
+    }
 }
 
-WAGTAIL_SITE_NAME = "wagtaildemo"{% endif %}
+# Base URL to use when referring to full URLs within the Wagtail admin backend -
+# e.g. in notification emails. Don't include '/admin' or a trailing slash
+WAGTAILADMIN_BASE_URL = "http://127.0.0.1:8000"
+
+# Allowed file extensions for documents in the document library.
+# This can be omitted to allow all files, but note that this may present a security risk
+# if untrusted users are allowed to upload files -
+# see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
+WAGTAILDOCS_EXTENSIONS = [
+    "csv",
+    "docx",
+    "key",
+    "odt",
+    "pdf",
+    "pptx",
+    "rtf",
+    "txt",
+    "xlsx",
+    "zip",
+]{% endif %}

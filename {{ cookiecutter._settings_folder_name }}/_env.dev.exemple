@@ -3,4 +3,4 @@ DJANGO_SECRET_KEY==!!!SET DJANGO_SECRET_KEY!!!
 DJANGO_DATABASE_URL=sqlite:///db.sqlite3
 DJANGO_EMAIL_URL=consolemail://
 DJANGO_ALLOWED_HOSTS=localhost,0.0.0.0,127.0.0.1
-DJANGO_SETTINGS_MODULE=!!!SET DJANGO_CONFIG_DIR!!!.settings.dev
+DJANGO_SETTINGS_MODULE={{ cookiecutter.__config_dir }}.settings.dev

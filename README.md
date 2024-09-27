@@ -10,9 +10,10 @@ francophone de démarrer rapidement avec leurs premiers déploiement.
 
 La procédure suivante vous permettra de générer des settings personnalisés séparés pour le dev et
 la production. Vous aurez besoin de l'outil Cookiecutter que vous pouvez installer au préalable
-à l'aide de la commande `pip install cookiecutter`.
+à l'aide de la commande `pip install cookiecutter`. Vous pouvez également utiliser cookiecutter
+sans installation si vous l'utilisez [uv](https://docs.astral.sh/uv/) en préfixant les commandes par uvx.
 
-1. Ouvrir un terminal à la racine de votre projet Django (où se trouve manage.py)
-2. Générer un répertoire de settings à l'aide de la commande `cookiecutter gh:placepython/django-settings`
+1. Ouvrir un terminal à la racine de votre projet Django.
+2. Générer un répertoire de settings à l'aide de la commande `cookiecutter gh:placepython/django-settings-fr`
 3. Répondez aux questions posées
 4. Suivez les instructions affichées dans le terminal à la fin de l'installation

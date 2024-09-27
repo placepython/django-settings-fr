@@ -1,9 +1,7 @@
 DJANGO_DEBUG=False
 DJANGO_SECRET_KEY==!!!SET DJANGO_SECRET_KEY!!!
-# DJANGO_DATABASE_URL=mysql://USER:PASSWORD@HOST:3306/DBNAME
-DJANGO_DATABASE_URL=postgres://USER:PASSWORD@HOST:5432/DBNAME
+# DJANGO_DATABASE_URL=mysql://USER:PASSWORD@HOST:3306/DBNAME?charset=utf8mb4
+DJANGO_DATABASE_URL=postgres://USER:PASSWORD@HOST:5432/DBNAME?OPTIONS
 DJANGO_EMAIL_URL=smtp+ssl://EMAIL:PASSWORD@HOST:465
 DJANGO_ALLOWED_HOSTS={{ cookiecutter.domain_name }}
-DJANGO_SETTINGS_MODULE=!!!SET DJANGO_CONFIG_DIR!!!.settings.production
-{%- if cookiecutter.deployment_platform == "VPS" and cookiecutter.use_redis %}
-# REDIS_URL=http:/127.0.0.1:6379{% endif %}
+DJANGO_SETTINGS_MODULE={{ cookiecutter.__config_dir }}.settings.production

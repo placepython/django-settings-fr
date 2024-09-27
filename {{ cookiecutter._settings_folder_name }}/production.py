@@ -9,8 +9,6 @@ https://docs.djangoproject.com/fr/5.1/ref/settings/
 """
 
 from .base import *  # noqa: F403
-from .base import MIDDLEWARE
-from .base import STORAGES
 from .base import env
 
 # GENERAL
@@ -30,7 +28,9 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # d’en-tête Host HTTP, qui sont possibles même avec bien des configurations de
 # serveur web apparemment sécurisées.
 # https://docs.djangoproject.com/fr/5.1/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["{{ cookiecutter.domain_name }}"])
+ALLOWED_HOSTS = env.list(
+    "DJANGO_ALLOWED_HOSTS", default=["{{ cookiecutter.domain_name }}"]
+)
 
 # BASE DE DONNEES:
 # Un dictionnaire contenant les réglages de toutes les bases de données à
@@ -44,53 +44,13 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["{{ cookiecutter.domai
 # - POSTGRESQL: postgres://USER:PASSWORD@HOST:PORT/DB_NAME (avec le driver psycopg)
 # - MYSQL: mysql://USER:PASSWORD@HOST:PORT/DB_NAME (avec le driver mysqlclient)
 # - SQLITE: sqlite:///FILE_NAME (le driver est inclus par défaut dans python)
-DATABASES = {
-    "default": env.db("DJANGO_DATABASE_URL")
-}
+DATABASES = {"default": env.db("DJANGO_DATABASE_URL")}
 
 # CONN_MAX_AGE est utilisé dans une configuration de production Django pour
 # définir la durée pendant laquelle les connexions à la base de données sont
 # réutilisées, ce qui permet d'améliorer les performances en réduisant le coût
 # de création de nouvelles connexions à chaque requête.
 DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
-
-{%- if cookiecutter.deployment_platform == "VPS" and cookiecutter.use_redis %}
-
-# CACHES
-# Cette configuration CACHES avec Redis en production permet à Django
-# d'utiliser Redis comme backend de cache.
-# https://docs.djangoproject.com/fr/5.1/topics/cache/#redis
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL", default="http:/127.0.0.1:6379/1"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # Mimicing memcache behavior.
-            # https://github.com/jazzband/django-redis#memcached-exceptions-behavior
-            "IGNORE_EXCEPTIONS": True,
-        },
-        "KEY_PREFIX": "{{ cookiecutter.author_name.lower() | trim() |replace(' ', '_') }}"
-    },
-}
-
-# La configuration SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-# indique à Django d'utiliser le backend de cache configuré pour stocker les
-# sessions, ce qui peut améliorer la performance en stockant les sessions en
-# mémoire ou dans un système de cache comme Redis.
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
-{% else %}
-
-# CACHES
-# Pour en savoir plus sur l'usage du framework de cache de Django:
-# https://docs.djangoproject.com/fr/5.1/topics/cache/
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "",
-    },
-}{% endif %}
 
 # SECURITE
 # La variable SECURE_PROXY_SSL_HEADER est utilisée dans Django pour indiquer
@@ -269,16 +229,10 @@ LOGGING = {
     },
 }
 
-{%- if cookiecutter.use_vite_for_frontend %}
+{%- if cookiecutter.use_wagtail %}
 
-# La configuration DJANGO_VITE permet d'intégrer Vite, un bundler JavaScript,
-# avec Django. Ici, le paramètre dev_mode est défini en fonction de la variable
-# DEBUG, ce qui signifie que, lorsque DEBUG est activé (mode développement),
-# Vite fonctionne en mode de développement pour un rechargement rapide et le
-# hot-reloading des fichiers frontend.
-# https://github.com/MrBin99/django-vite/blob/master/README.md
-DJANGO_VITE = {
-    "default": {
-        "dev_mode": DEBUG,
-    },
-}{% endif %}
+# Wagtail settings
+
+# Base URL to use when referring to full URLs within the Wagtail admin backend -
+# e.g. in notification emails. Don't include '/admin' or a trailing slash
+WAGTAILADMIN_BASE_URL = "https://{{ cookiecutter.domain_name }}"{% endif %}

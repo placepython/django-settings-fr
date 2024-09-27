@@ -1,9 +1,10 @@
 {
+  "_settings_folder_name": "settings",
   "project_name": "Mon nouveau projet",
-  "apps_folder_name": "",
-  "_settings_folder_name": "_placepython_settings",
+  "config_dir": "{{ cookiecutter.project_name.lower() | trim() |replace(' ', '_') }}",
+  "__config_dir": "{{ cookiecutter.config_dir | trim('/') | trim('\\\\') | replace('/', '.') | replace('\\\\', '.') }}",
   "author_name": "Thierry Chappuis",
-  "domain_name": "pacepython.com",
+  "domain_name": "placepython.com",
   "email": "{{ cookiecutter.author_name.lower() | trim() |replace(' ', '-') }}@{{ cookiecutter.domain_name.lower() | trim() }}",
   "user_model": "auth.User",
   "login_url": "login",
@@ -11,45 +12,19 @@
   "logout_redirect_url": "",
   "language": "fr",
   "timezone": "UTC",
-  "package_manager": [
-    "pipenv",
-    "uv",
-    "poetry",
-    "pip"
-  ],
-  "deployment_platform": [
-    "Pythonanywhere",
-    "VPS"
-  ],
-  "use_redis": false,
   "use_wagtail": false,
-  "use_vite_for_frontend": false,
   "__prompts__": {
     "project_name": "Quel est le nom de votre projet ?",
-    "apps_folder_name": "Quel est le nom du répertoire qui contient vos apps Django (laissez vide si vos apps sont à la racine du projet) ?",
+    "config_dir": "Dans quelle répertoire se trouve votre fichier wsgi.py ? (Chemin relatif depuis la racine du projet Django)",
     "author_name": "Quel est votre nom ?",
     "domain_name": "Quel est le nom de domaine de votre projet ?",
     "email": "Quel est votre email ?",
     "user_model": "Quel est le modèle utilisateur que vous utilisez ?",
     "login_url": "Quel est le nom de votre url de login ?",
-    "login_redirect_url": "Vers quelle url redirigez-vous les utilisateurs par défaut après le login ?",
-    "logout_redirect_url": "Vers quelle url redirigez-vous les utilisateurs par défaut après le logout ?",
+    "login_redirect_url": "Vers quelle url voulez-vous rediriger l'utilisateur après un login ? (nom de l'url)",
+    "logout_redirect_url": "Vers quelle url voulez-vous rediriger l'utilisateur après un logout ? (nom de l'url)",
     "language": "Quelle est la langue utilisée par votre application web (fr, us-en, etc.) ?",
     "timezone": "Quel est le fuseau horaire de votre application (UTC, Europe/Paris, Europe/Zurich, etc.) ?",
-    "package_manager": {
-      "__prompt__": "Quel gestionnaire de paquets Python utilisez-vous ?",
-      "pipenv": "Pipenv",
-      "uv": "UV",
-      "poetry": "Poetry",
-      "pip": "pip"
-    },
-    "deployment_platform": {
-      "__prompt__": "Sur quel plateforme souhaitez-vous déployer votre projet ?",
-      "Pythonanywhere": "PythonAnywhere",
-      "VPS": "Un serveur (VPS ou dédié)"
-    },
-    "use_redis": "Si vous déployez sur un serveur: désirez-vous utiliser Redis comme back-end pour le cache ?",
-    "use_wagtail": "Utilisez-vous le CMS Wagtail ?",
-    "use_vite_for_frontend": "Utilisez-vous Vite.js pour gérer votre front-end ?"
+    "wagtail": "Utilisez-vous le CMS Wagtail dans votre projet ?"
   }
 }

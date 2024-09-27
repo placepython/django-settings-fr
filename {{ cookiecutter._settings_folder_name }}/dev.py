@@ -34,19 +34,8 @@ SECRET_KEY = env(
 # serveur web apparemment sécurisées.
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
-    "DJANGO_ALLOWED_HOSTS",
-    default=["localhost", "0.0.0.0", "127.0.0.1"]
+    "DJANGO_ALLOWED_HOSTS", default=["localhost", "0.0.0.0", "127.0.0.1"]
 )
-
-# CACHES
-# Pour en savoir plus sur l'usage du framework de cache de Django:
-# https://docs.djangoproject.com/fr/5.1/topics/cache/
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "",
-    },
-}
 
 # EMAIL
 # Configuration de l'email. Par défaut, les courriels sont affichés dans le
@@ -58,7 +47,8 @@ CACHES = {
 # - Console: consolemail://
 # https://docs.djangoproject.com/fr/5.1/ref/settings/
 EMAIL_BACKEND = env.email(
-    "DJANGO_EMAIL_URL", default="consolemail://",
+    "DJANGO_EMAIL_URL",
+    default="consolemail://",
 )
 
 # DJANGO-DEBUG-TOOLBAR
@@ -83,23 +73,9 @@ INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 DEBUG_TOOLBAR_CONFIG = {
     "DISABLE_PANELS": [
         "debug_toolbar.panels.redirects.RedirectsPanel",
-        # Disable profiling panel due to an issue with Python 3.12:
+        # Désactive le panneau de profilage à cause d'un problème avec Python 3.12:
         # https://github.com/jazzband/django-debug-toolbar/issues/1875
         "debug_toolbar.panels.profiling.ProfilingPanel",
     ],
     "SHOW_TEMPLATE_CONTEXT": True,
 }
-
-{%- if cookiecutter.use_vite_for_frontend %}
-
-# La configuration DJANGO_VITE permet d'intégrer Vite, un bundler JavaScript,
-# avec Django. Ici, le paramètre dev_mode est défini en fonction de la variable
-# DEBUG, ce qui signifie que, lorsque DEBUG est activé (mode développement),
-# Vite fonctionne en mode de développement pour un rechargement rapide et le
-# hot-reloading des fichiers frontend.
-# https://github.com/MrBin99/django-vite/blob/master/README.md
-DJANGO_VITE = {
-    "default": {
-        "dev_mode": DEBUG,
-    },
-}{% endif %}
